@@ -98,6 +98,42 @@ class UserDB{
 			//return $id;
 	}
 
+	public static function getID($email, $password){
+		$db = Database::getDB();
+		
+		$query = 'SELECT id FROM kas58.accounts WHERE email = :email AND password = :password';
+		$statement = $db->prepare($query);
+		$statement->bindValue(':email', "$email");
+		$statement->bindValue(':password', "$password");
+		$statement->execute();
+	    $id = $statement->fetchAll();
+	    $row_count = $statement->rowCount();
+	    $statement->closeCursor();
+	    $anID;
+	    foreach($id as $i){
+	    	$anID = $i[0];
+	    }
+
+	    return $anID;
+	}
+
+	public static function getUser($id){
+		$db = Database::getDB();
+		$query = 'SELECT * FROM kas58.accounts WHERE id = :id';
+		$statement = $db->prepare($query);
+		$statement->bindValue(':id', "$id");
+		$statement->execute();
+	    $information = $statement->fetchAll();
+	    $statement->closeCursor();
+	    $user;
+
+	  	foreach($information as $info){
+	  		$user = new User($info[1], $info[2], $info[3], $info[4], $info[5], $info[6], $info[7]);
+	  	}
+
+	  	return $user;
+	}
+
 	public static function getPasswords(){
 		$db = Database::getDB();
 		$query = 'SELECT * FROM kas58.accounts ORDER BY password';
