@@ -10,7 +10,6 @@ if(!isset($_SESSION['email']) || !isset($_SESSION['id'])){
 $userf = UserDB::getUser($_SESSION['id']);
 $_SESSION['userInfo'] = $userf;
 
-
 ?>
 
 <!DOCTYPE html>
@@ -22,6 +21,9 @@ $_SESSION['userInfo'] = $userf;
 		<h1>This is a test!</h1>
 		<p>Welcome <?php echo "{$_SESSION['userInfo']->getFname()} {$_SESSION['userInfo']->getLname()}"; ?> </p>
 		<p>Your birthday is on: <?php echo "{$_SESSION['userInfo']->getBirthday()}"?></p>
+
+		<p>
+		</p>
 		<br>
 
 		<h2>To-Do List: </h2>
