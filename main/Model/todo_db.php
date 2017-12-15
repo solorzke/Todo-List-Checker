@@ -17,9 +17,9 @@ class TodoDB{
 		$statement->closeCursor();
 	}
 
-	public static function getToDo($user_id){
+	public static function getTodo($user_id){
 		$db = Database::getDB();
-		$query = 'SELECT * FROM kas58.accounts WHERE id = :id';
+		$query = 'SELECT * FROM kas58.todos WHERE ownerid = :id';
 		$statement = $db->prepare($query);
 		$statement->bindValue(':id', "$user_id");
 		$statement->execute();
