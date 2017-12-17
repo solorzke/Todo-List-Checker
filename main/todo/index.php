@@ -15,7 +15,6 @@ if ($action == NULL) {
 }
 
 if($action == 'list_todos'){
-	
 	$categories = TodoDB::getTodo($_SESSION['id']);
 	include 'main_page.php';
 }
@@ -24,22 +23,28 @@ if($action == 'add_todo_form'){
 	include 'add_todo.php';
 }
 
+
 if($action == 'add_todo'){
+	
 	$email = $_SESSION['userInfo']->getEmail();
-	$userId = $_SESSION['userInfo']->getID();
+	$userId = $_SESSION['id'];
 	$message = filter_input(INPUT_POST, 'message');
 	$completion = filter_input(INPUT_POST, 'status') != 0 ? '1': '0';
 	$date = filter_input(INPUT_POST, 'date');
 	$dueTime = filter_input(INPUT_POST, 'time');
-	$createdDate = date('m-d-Y \a\t H:i:s'); //<-- Time the form was sent to create a todo list
+	$createdDate = date('Y-m-d H:i:s'); //<-- Time the form was sent to create a todo list
 
 	$arr = explode('-', $date);
-	$date = $arr[1].'-'.$arr[2].'-'.$arr[0];
+	$arr2 = explode(':', $dueTime);
+	$date = date('Y-m-d H:i:s', mktime($arr2[0], $arr2[1], $arr2[2], $arr[1], $arr[2], $arr[0]));
+	TodoDB::insertNew($email, $userId, $createdDate, $date, $message, $completion);
+	header("Location: index.php?action=list_todos");
+}
 
-	TodoDB::insertNew($email, $userId, $);
-
-
-
+if($action == 'delete_todo'){
+	$todo_id = filter_input(INPUT_POST, 'todo_id');
+	TodoDB::deleteTodo($todo_id);
+	header('Location: index.php?action=list_todos');
 }
 
 ?>

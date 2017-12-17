@@ -23,16 +23,24 @@ include '../View/header.php';
 			<th>Due Date</th>
 			<th>Message</th>
 			<th>Is Done</th>
+			<th>&nbsp;</th>
 		</tr>
 		<?php foreach ($categories as $category) : ?>
 		<tr>
-			<?php if($category[6] >= 1) continue;?>
+			<?php if($category[6] >= 1) continue;?> <!-- checks for complete or incomplete todos -->
 			<td> <?php echo $category[1]; ?> </td>
 			<td> <?php echo $category[2]; ?> </td>
 			<td> <?php echo $category[3]; ?> </td>
 			<td> <?php echo $category[4]; ?> </td>
 			<td> <?php echo $category[5]; ?> </td>
 			<td> <?php echo $category[6]; ?> </td>
+			<td>
+				<form action="index.php" method="post">
+					<input type="hidden" name="action" value="delete_todo">
+					<input type="hidden" name="todo_id" value="<?php echo $category[0]; ?>"> <!-- returns todo token -->
+					<input type="submit" name="submit" value="Delete">
+				</form>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 	</table>
@@ -46,6 +54,7 @@ include '../View/header.php';
 			<th>Due Date</th>
 			<th>Message</th>
 			<th>Is Done</th>
+			<th>&nbsp;</th>
 		</tr>
 		<?php foreach ($categories as $category) : ?>
 		<tr>
@@ -56,6 +65,13 @@ include '../View/header.php';
 			<td> <?php echo $category[4]; ?> </td>
 			<td> <?php echo $category[5]; ?> </td>
 			<td> <?php echo $category[6]; ?> </td>
+			<td>
+				<form action="index.php" method="post">
+					<input type="hidden" name="action" value="delete_todo">
+					<input type="hidden" name="todo_id" value="<?php echo $category[0]; ?>"> <!-- returns todo token -->
+					<input type="submit" name="submit" value="Delete">
+				</form>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 	</table>

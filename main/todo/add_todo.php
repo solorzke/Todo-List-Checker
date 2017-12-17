@@ -4,7 +4,7 @@
 <br>
 <h2>Enter the information below.</h2>
 
-<form action="" method="post">
+<form action="index.php" method="post">
 	<input type="hidden" name="action" value="add_todo">
 
 	<label>Enter Assignment Message:</label>
@@ -30,8 +30,25 @@
 	<input type="submit" name="submit" value="Submit">
 	<br><br>
 </form>
-<?php date_default_timezone_get("America/New York"); ?>
-<?php echo date('m-d-Y \a\t H:i:s'); ?>
 <a href="index.php?action=list_todos">Return to Main Page</a>
 <br><br>
+
+<?php $se = $_POST['date']; 
+	  $arr = explode('-', $se);
+	  $arr2 = explode(':', $_POST['time']);
+	  $d = mktime($arr2[0], $arr2[1], $arr2[2], $arr[1], $arr[2], $arr[0]);
+	  //echo $_POST['date'];
+	  //echo $arr[0];
+	  //echo '\n'.$arr[1];
+	  //echo '\n'.$arr[2];
+	  //echo 	$date = date('Y-m-d H:i:s', strtotime('2017'));
+	  $date = date('Y-m-d H:i:s', $d);
+	  echo $date;
+;
+
+
+
+
+
+?>
 <?php include '../View/footer.php'; ?>
