@@ -47,4 +47,40 @@ if($action == 'delete_todo'){
 	header('Location: index.php?action=list_todos');
 }
 
+if($action == 'edit_todo_form'){
+	$id = filter_input(INPUT_POST, 'id');
+	$dueDate = filter_input(INPUT_POST, 'dueDate');
+	$message = filter_input(INPUT_POST, 'message');
+	$isDone = filter_input(INPUT_POST, 'isDone');
+	include 'edit_todo.php';
+}
+
+if($action == 'edit_todo'){
+	$date = filter_input(INPUT_POST, 'date');
+	$message = filter_input(INPUT_POST, 'message');
+	$completion = filter_input(INPUT_POST, 'status');
+	$dueTime = filter_input(INPUT_POST, 'time');
+	$id = filter_input(INPUT_POST, 'id');
+
+	if ($date != NULL && $dueTime != NULL) {
+		$arr = explode('-', $date);
+		$arr2 = explode(':', $dueTime);
+		$date = date('Y-m-d H:i:s', mktime($arr2[0], $arr2[1], $arr2[2], $arr[1], $arr[2], $arr[0]));
+		TodoDB::updateDueDate($date, $id);
+	}
+
+	else{
+		header('Location: index.php?action=edit_todo_form');
+	}
+	
+	if ($message != NULL) {
+		TodoDB::updateMessage($message, $id);
+	}
+	if ($completion != NULL) {
+		TodoDB::updateIsDone($completion, $id);
+	}
+
+	header('Location: index.php?action=list_todos');
+}
+
 ?>

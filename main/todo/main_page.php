@@ -24,6 +24,7 @@ include '../View/header.php';
 			<th>Message</th>
 			<th>Is Done</th>
 			<th>&nbsp;</th>
+			<th>&nbsp;</th>			
 		</tr>
 		<?php foreach ($categories as $category) : ?>
 		<tr>
@@ -41,6 +42,19 @@ include '../View/header.php';
 					<input type="submit" name="submit" value="Delete">
 				</form>
 			</td>
+			<td>
+				<form action="index.php" method="post">
+					<input type="hidden" name="action" value="edit_todo_form">
+					<input type="hidden" name="id" value="<?php echo $category[0]; ?>"> <!-- returns todo token -->
+					<input type="hidden" name="email" value="<?php echo $category[1]; ?>">
+					<input type="hidden" name="userID" value="<?php echo $category[2]; ?>">
+					<input type="hidden" name="dateCreated" value="<?php echo $category[3]; ?>">
+					<input type="hidden" name="dueDate" value="<?php echo $category[4]; ?>">
+					<input type="hidden" name="message" value="<?php echo $category[5]; ?>">
+					<input type="hidden" name="isDone" value="<?php echo $category[6]; ?>">
+					<input type="submit" name="submit" value="Edit">
+				</form>
+			</td>
 		</tr>
 		<?php endforeach; ?>
 	</table>
@@ -54,6 +68,7 @@ include '../View/header.php';
 			<th>Due Date</th>
 			<th>Message</th>
 			<th>Is Done</th>
+			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 		</tr>
 		<?php foreach ($categories as $category) : ?>
@@ -70,6 +85,19 @@ include '../View/header.php';
 					<input type="hidden" name="action" value="delete_todo">
 					<input type="hidden" name="todo_id" value="<?php echo $category[0]; ?>"> <!-- returns todo token -->
 					<input type="submit" name="submit" value="Delete">
+				</form>
+			</td>
+			<td>
+				<form action="index.php" method="post">
+					<input type="hidden" name="action" value="edit_todo_form">
+					<input type="hidden" name="id" value="<?php echo $category[0]; ?>"> <!-- returns todo token -->
+					<input type="hidden" name="email" value="<?php echo $category[1]; ?>">
+					<input type="hidden" name="userID" value="<?php echo $category[2]; ?>">
+					<input type="hidden" name="dateCreated" value="<?php echo $category[3]; ?>">
+					<input type="hidden" name="dueDate" value="<?php echo $category[4]; ?>">
+					<input type="hidden" name="message" value="<?php echo $category[5]; ?>">
+					<input type="hidden" name="isDone" value="<?php echo $category[6]; ?>">
+					<input type="submit" name="submit" value="Edit">
 				</form>
 			</td>
 		</tr>

@@ -68,6 +68,16 @@ class TodoDB{
 		$statement->closeCursor();
 	}
 
+	public static function updateEmail($email, $id){
+		$db = Database::getDB();
+		$query = 'UPDATE kas58.todos SET owneremail = :email WHERE id = :id';
+		$statement = $db->prepare($query);
+		$statement->bindValue(':email', "$email");
+		$statement->bindValue(':id', "$id");
+		$statement->execute();
+		$statement->closeCursor();
+	}
+
 }
 
 ?>
