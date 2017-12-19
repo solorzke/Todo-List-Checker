@@ -47,6 +47,17 @@ if($action == 'delete_todo'){
 	header('Location: index.php?action=list_todos');
 }
 
+if ($action == 'checkOff') {
+	# code...
+	$check = filter_input(INPUT_POST, 'checkbox');
+	$id = filter_input(INPUT_POST, 'id');
+
+	if($check == 1){
+		TodoDB::updateIsDone($check, $id);
+		header('Location: index.php?action=list_todos');
+	}
+}
+
 if($action == 'edit_todo_form'){
 	$id = filter_input(INPUT_POST, 'id');
 	$dueDate = filter_input(INPUT_POST, 'dueDate');
@@ -72,7 +83,7 @@ if($action == 'edit_todo'){
 	else{
 		header('Location: index.php?action=edit_todo_form');
 	}
-	
+
 	if ($message != NULL) {
 		TodoDB::updateMessage($message, $id);
 	}
@@ -81,6 +92,23 @@ if($action == 'edit_todo'){
 	}
 
 	header('Location: index.php?action=list_todos');
+}
+
+
+if($action == 'updateEmailForm'){
+	$currentEmail = $_SESSION['userInfo']->getEmail();
+	$currentPassword = $_SESSION['userInfo']->getPassword();
+	include 'updateEmailPass.php';
+}
+
+if($action == 'updateEmailPass'){
+
+}
+
+if ($action == 'sign_out') {
+	if (session_destroy()) {
+		header('Location: sign_in.php');
+	}
 }
 
 ?>

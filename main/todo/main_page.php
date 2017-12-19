@@ -12,29 +12,30 @@ if(!isset($_SESSION['email']) || !isset($_SESSION['id'])){
 //$_SESSION['userInfo'] = $userf;
 include '../View/header.php';
 ?>
-	<h1>Welcome <?php echo "{$_SESSION['userInfo']->getFname()} {$_SESSION['userInfo']->getLname()}"; ?> </h1>
-	<p>Your birthday is on: <?php echo "{$_SESSION['userInfo']->getBirthday()}"?></p>
-	<h2>To-Do List: Incomplete</h2>
-	<table>
+	<h1 class="title">Welcome <?php echo "{$_SESSION['userInfo']->getFname()} {$_SESSION['userInfo']->getLname()}"; ?> </h1>
+	<h2 class="title">To-Do List: Incomplete</h2>
+	<table class="tb1">
 		<tr>
-			<th>Email</th>
-			<th>User ID</th>
 			<th>Date Created</th>
 			<th>Due Date</th>
 			<th>Message</th>
-			<th>Is Done</th>
+			<th>Complete?</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>			
 		</tr>
 		<?php foreach ($categories as $category) : ?>
 		<tr>
 			<?php if($category[6] >= 1) continue;?> <!-- checks for complete or incomplete todos -->
-			<td> <?php echo $category[1]; ?> </td>
-			<td> <?php echo $category[2]; ?> </td>
 			<td> <?php echo $category[3]; ?> </td>
 			<td> <?php echo $category[4]; ?> </td>
 			<td> <?php echo $category[5]; ?> </td>
-			<td> <?php echo $category[6]; ?> </td>
+			<td class="check"> 
+				<form action="index.php" method="post">
+					<input type="hidden" name="action" value="checkOff">
+					<input type="hidden" name="id" value="<?php echo $category[0]; ?>">
+					<input type="checkbox" name="checkbox" value="1" onchange="this.form.submit()"> 
+				</form>
+			</td>
 			<td>
 				<form action="index.php" method="post">
 					<input type="hidden" name="action" value="delete_todo">
@@ -59,27 +60,29 @@ include '../View/header.php';
 		<?php endforeach; ?>
 	</table>
 	<br>
-	<h2>To-Do List: Complete</h2>
+	<h2 class="title">To-Do List: Complete</h2>
 	<table>
 		<tr>
-			<th>Email</th>
-			<th>User ID</th>
 			<th>Date Created</th>
 			<th>Due Date</th>
 			<th>Message</th>
-			<th>Is Done</th>
+			<th>Incomplete?</th>
 			<th>&nbsp;</th>
 			<th>&nbsp;</th>
 		</tr>
 		<?php foreach ($categories as $category) : ?>
 		<tr>
 			<?php if($category[6] == 0) continue;?>
-			<td> <?php echo $category[1]; ?> </td>
-			<td> <?php echo $category[2]; ?> </td>
 			<td> <?php echo $category[3]; ?> </td>
 			<td> <?php echo $category[4]; ?> </td>
 			<td> <?php echo $category[5]; ?> </td>
-			<td> <?php echo $category[6]; ?> </td>
+			<td class="check"> 
+				<form action="index.php" method="post">
+					<input type="hidden" name="action" value="checkOff"> 
+					<input type="hidden" name="id" value="<?php echo $category[0]; ?>">
+					<input type="checkbox" name="checkbox" value="0" onchange="this.form.submit()"> 
+				</form>
+			</td>
 			<td>
 				<form action="index.php" method="post">
 					<input type="hidden" name="action" value="delete_todo">
@@ -103,7 +106,10 @@ include '../View/header.php';
 		</tr>
 		<?php endforeach; ?>
 	</table>
+
+	<!--
 	<form action="index.php?action=add_todo_form" method="post">
 		<input type="submit" name="add" value="Add New Entry">
 	</form>
+-->
 <?php include '../View/footer.php'; ?>
