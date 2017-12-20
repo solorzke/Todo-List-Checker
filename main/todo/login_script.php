@@ -11,7 +11,8 @@ require('../Model/user_db.php');
 		if (UserDB::verifyLogin($email_user, $password_user) == true){
 			$_SESSION['id'] = UserDB::getID($email_user, $password_user);
 			$_SESSION['email'] = $email_user;
-			//header('Location: https://web.njit.edu/~kas58/is218_Project/main/main_page.php');
+			$_SESSION['last_login_timestamp'] = time();
+
 			header('Location: index.php?action=list_todos');
 		}
 

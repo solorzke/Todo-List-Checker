@@ -1,15 +1,5 @@
 <?php
 session_start();
-//require('Model/user_db.php');
-//require('Model/todo_db.php');
-
-/*
-if(!isset($_SESSION['email']) || !isset($_SESSION['id'])){
-	header("Location: Location: https://web.njit.edu/~kas58/is218_Project/main/sign_in.php");
-}
-*/
-//$userf = UserDB::getUser($_SESSION['id']);
-//$_SESSION['userInfo'] = $userf;
 include '../View/header.php';
 ?>
 	<h1 class="title">Welcome <?php echo "{$_SESSION['userInfo']->getFname()} {$_SESSION['userInfo']->getLname()}"; ?> </h1>
@@ -26,8 +16,8 @@ include '../View/header.php';
 		<?php foreach ($categories as $category) : ?>
 		<tr>
 			<?php if($category[6] >= 1) continue;?> <!-- checks for complete or incomplete todos -->
-			<td> <?php echo $category[3]; ?> </td>
-			<td> <?php echo $category[4]; ?> </td>
+			<td> <?php echo timeForm($category[3]); ?></td>
+			<td> <?php echo timeForm($category[4]); ?> </td>
 			<td> <?php echo $category[5]; ?> </td>
 			<td class="check"> 
 				<form action="index.php" method="post">
@@ -73,8 +63,8 @@ include '../View/header.php';
 		<?php foreach ($categories as $category) : ?>
 		<tr>
 			<?php if($category[6] == 0) continue;?>
-			<td> <?php echo $category[3]; ?> </td>
-			<td> <?php echo $category[4]; ?> </td>
+			<td> <?php echo timeForm($category[3]); ?></td>
+			<td> <?php echo timeForm($category[4]); ?></td>
 			<td> <?php echo $category[5]; ?> </td>
 			<td class="check"> 
 				<form action="index.php" method="post">
@@ -106,10 +96,4 @@ include '../View/header.php';
 		</tr>
 		<?php endforeach; ?>
 	</table>
-
-	<!--
-	<form action="index.php?action=add_todo_form" method="post">
-		<input type="submit" name="add" value="Add New Entry">
-	</form>
--->
 <?php include '../View/footer.php'; ?>

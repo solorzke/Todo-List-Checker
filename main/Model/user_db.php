@@ -98,6 +98,41 @@ class UserDB{
 			//return $id;
 	}
 
+	public static function emailExists($email){
+		$db = Database::getDB();
+		$query = 'SELECT email FROM kas58.accounts WHERE email = :email';
+		$statement = $db->prepare($query);
+		$statement->bindValue(':email', "$email");
+		$statement->execute();
+	    $emails = $statement->fetch();
+	    $row_count = $statement->rowCount();
+	    $statement->closeCursor();
+
+		if($row_count == 1){
+			return true;
+		}
+		else
+			return false;
+	}
+
+	public static function passwordExists($password, $email){
+		$db = Database::getDB();
+		$query = 'SELECT password FROM kas58.accounts WHERE email = :email AND password = :password';
+		$statement = $db->prepare($query);
+		$statement->bindValue(':email', "$email");
+		$statement->bindValue(':password', $password);
+		$statement->execute();
+	    $emails = $statement->fetch();
+	    $row_count = $statement->rowCount();
+	    $statement->closeCursor();
+
+		if($row_count == 1){
+			return true;
+		}
+		else
+			return false;
+	}
+
 	public static function getID($email, $password){
 		$db = Database::getDB();
 		

@@ -3,6 +3,14 @@ session_start();
 require('../Model/user_db.php');
 require('../Model/todo_db.php');
 
+function timeForm($string){
+	$results = explode(' ', $string);
+	$date = explode('-', $results[0]);
+	$time = explode(':', $results[1]);
+	$date = $date[1].'/'.$date[2].'/'.$date[0].' @ '.$time[0].':'.$time[1].':'.$time[2];
+	return $date;
+}
+
 $userf = UserDB::getUser($_SESSION['id']);
 $_SESSION['userInfo'] = $userf; //User object returned
 
@@ -12,6 +20,14 @@ if ($action == NULL) {
     if ($action == NULL) {
         $action = 'list_todos';
     }
+}
+
+if(!isset($_SESSION['userInfo'])){
+	header('Location: sign_in.php');
+}
+
+elseif ((time() - $_SESSION['last_login_timestamp']) > 900) {
+	header('index.php?action=sign_out');
 }
 
 if($action == 'list_todos'){
@@ -33,11 +49,16 @@ if($action == 'add_todo'){
 	$date = filter_input(INPUT_POST, 'date');
 	$dueTime = filter_input(INPUT_POST, 'time');
 	$createdDate = date('Y-m-d H:i:s'); //<-- Time the form was sent to create a todo list
+	$dateTime;
 
-	$arr = explode('-', $date);
-	$arr2 = explode(':', $dueTime);
-	$date = date('Y-m-d H:i:s', mktime($arr2[0], $arr2[1], $arr2[2], $arr[1], $arr[2], $arr[0]));
-	TodoDB::insertNew($email, $userId, $createdDate, $date, $message, $completion);
+	if ($date != NULL && $dueTime != NULL) {
+		$dateT = explode('/', $date);
+		$time = explode(':', $dueTime);
+
+		$dateTime = date('Y-m-d H:i:s', mktime($time[0], $time[1], $time[2], $dateT[0], $dateT[1], $dateT[2]));
+	}
+
+	TodoDB::insertNew($email, $userId, $createdDate, $dateTime, $message, $completion);
 	header("Location: index.php?action=list_todos");
 }
 
@@ -53,6 +74,11 @@ if ($action == 'checkOff') {
 	$id = filter_input(INPUT_POST, 'id');
 
 	if($check == 1){
+		TodoDB::updateIsDone($check, $id);
+		header('Location: index.php?action=list_todos');
+	}
+
+	if($check == 0){
 		TodoDB::updateIsDone($check, $id);
 		header('Location: index.php?action=list_todos');
 	}
@@ -74,10 +100,11 @@ if($action == 'edit_todo'){
 	$id = filter_input(INPUT_POST, 'id');
 
 	if ($date != NULL && $dueTime != NULL) {
-		$arr = explode('-', $date);
-		$arr2 = explode(':', $dueTime);
-		$date = date('Y-m-d H:i:s', mktime($arr2[0], $arr2[1], $arr2[2], $arr[1], $arr[2], $arr[0]));
-		TodoDB::updateDueDate($date, $id);
+		$dateT = explode('/', $date);
+		$time = explode(':', $dueTime);
+
+		$dateTime = date('Y-m-d H:i:s', mktime($time[0], $time[1], $time[2], $dateT[0], $dateT[1], $dateT[2]));
+		TodoDB::updateDueDate($dateTime, $id);
 	}
 
 	else{
@@ -102,7 +129,29 @@ if($action == 'updateEmailForm'){
 }
 
 if($action == 'updateEmailPass'){
+	$currentEmail = filter_input(INPUT_POST, 'currentEmail');
+	$currentPassword = filter_input(INPUT_POST, 'currentPassword');
+	$newPassword = filter_input(INPUT_POST, 'newPassword');
+	$newPassAgain = filter_input(INPUT_POST, 'newPasswordAgain');
 
+	if($currentEmail == $_SESSION['userInfo']->getEmail() && $currentPassword == $_SESSION['userInfo']->getPassword()){
+
+		if($newPassword == $newPassAgain){
+			UserDB::updatePass($newPassword, $_SESSION['id']);
+			header('Location: index.php?action=list_todos');
+		}
+
+		else{
+			echo('An error occured. Try Again!');
+			header('Location: index.php?action=updateEmailForm');
+		}
+		
+	}
+
+	else{
+		echo('An error occured. Try Again!');
+		header('Location: index.php?action=updateEmailForm');
+	}
 }
 
 if ($action == 'sign_out') {

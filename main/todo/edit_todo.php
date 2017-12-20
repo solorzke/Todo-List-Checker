@@ -2,23 +2,24 @@
 session_start();
 include '../View/header.php'; 
 ?>
-<h1>Edit Todo Assignment</h1>
+<h1 class="title">Edit Todo Assignment</h1>
 <br>
-<p>You have selected:</p>
-<table>
+<table id="editTable">
 	<tr>
 		<th>Due Date</th>
 		<th>Message</th>
-		<th>Is Done</th>
+		<th>Status</th>
 	</tr>
 	<tr>
-		<td><?php echo $dueDate; ?></td>
+		<td><?php echo timeForm($dueDate); ?></td>
 		<td><?php echo $message; ?></td>
-		<td><?php echo $isDone; ?></td>
+		<td><?php echo $status = $isDone != 0 ? 'Incomplete': 'Complete'; ?></td>
 	</tr>
 </table>
+<div class="container" style="height: 450px;">
+<div class="formRadio" style="height: 450px;">
 
-<h2>Edit the information below.</h2>
+
 <form action="index.php" method="post">
 	<input type="hidden" name="action" value="edit_todo">
 	<input type="hidden" name="id" value="<?php echo $id ?>">
@@ -30,23 +31,25 @@ include '../View/header.php';
 
 	<label>Update Due Date:</label>
 	<br>
-	<input type="Date" name="date">
+	<input type="Date" name="date" placeholder="Date format: MM/DD/YYYY">
 	<br><br>
 
 	<label>Update Due Date Time:</label>
 	<br>
-	<input type="Time" name="time">
+	<input type="Time" name="time" placeholder="Time format: HH:MM:SS">
 	<br><br>
 
 	<label>Update Completion Status:</label>
-	<input type="radio" name="status" value="1">Complete
+	
+	<input class="box" type="radio" name="status" value="1">Complete
 	<input type="radio" name="status" value="0">Incomplete
 	<br><br>
+		
 
 	<input type="submit" name="submit" value="Save">
 	<br><br>
 </form>
-<a href="index.php?action=list_todos">Return to Main Page</a>
-<br><br>
+</div>
+</div>
 
 <?php include '../View/footer.php'; ?>

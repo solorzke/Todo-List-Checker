@@ -2,10 +2,10 @@
 session_start();
 include '../View/header.php'; 
 ?>
-<h1>Add A New Todo Assignment</h1>
+<h1 class="title">Add A New Todo Assignment</h1>
 <br>
-<h2>Enter the information below.</h2>
-
+<div class="container" style="height: 490px;">
+	<div class="formRadio" style="height: 490px;">
 <form action="index.php" method="post">
 	<input type="hidden" name="action" value="add_todo">
 
@@ -22,16 +22,16 @@ include '../View/header.php';
 
 	<label>Enter Due Date:</label>
 	<br>
-	<input type="Date" name="date">
+	<input type="Date" name="date" placeholder="Date format: MM/DD/YYYY">
 	<br><br>
 
 	<label>Enter Time of Due Date:</label>
 	<br>
-	<input type="Time" name="time">
+	<input type="Time" name="time" placeholder="Time format: HH:MM:SS">
 	<br><br>
 	<input type="submit" name="submit" value="Submit">
 	<br><br>
 </form>
-<a href="index.php?action=list_todos">Return to Main Page</a>
-<br><br>
+</div>
+</div>
 <?php include '../View/footer.php'; ?>

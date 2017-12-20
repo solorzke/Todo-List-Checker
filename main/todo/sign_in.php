@@ -3,6 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title>Todo Sign In Page</title>
+	<link rel="icon" href="https://static.yocket.in/images/universities/logos/njit_logo.jpg">
 	<link rel="stylesheet" type="text/css" href="../index.css">
 </head>
 <body>
@@ -26,6 +27,7 @@
 						<input type="submit" value="Login" name="login">
 						<br>
 						<p>Don't have an account? <a href="register.php">Register Now</a></p>
+						<p>Forgot Password? <a href="changePass.php">Click here.</a></p>
 					</form>
 				</div>
 			</div>
